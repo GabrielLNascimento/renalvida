@@ -1,5 +1,8 @@
 .question {
     margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
 .question-label {
@@ -41,3 +44,4 @@
 .option:hover {
     background-color: #e0e0e0;
 }
+

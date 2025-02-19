@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RatingQuestion from './RatingQuestion';
 
 function ClinicEvaluationForm() {
@@ -15,11 +15,32 @@ function ClinicEvaluationForm() {
         quest10: '',
     });
 
+    const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success'
+
+    // Função para ativar o modo de tela cheia
+    const activateFullscreen = () => {
+        const element = document.documentElement;
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        } else {
+            alert('Seu navegador não suporta o modo tela cheia!');
+        }
+    };
+
+    // Ativa o modo de tela cheia quando o componente é montado
+    useEffect(() => {
+        activateFullscreen();
+    }, []);
+
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
-    const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success'
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -71,18 +92,27 @@ function ClinicEvaluationForm() {
     if (status === 'loading') {
         return (
             <div style={styles.loadingContainer}>
-                <h2>Enviando sua avaliação...</h2>
+                <div>
+                    <h2 className='title-loading'>Enviando sua avaliação...</h2>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="container" style={styles.container}>
-            <h2 style={styles.title}>Avaliação da Clínica</h2>
+        <div
+            className="container"
+            style={styles.container}
+            onClick={activateFullscreen}
+        >
+            <div className="div-title">
+                <h2 style={styles.title}>Avaliação da Clínica</h2>
+            </div>
+
             <form onSubmit={handleSubmit} style={styles.form}>
                 <RatingQuestion
                     questionNumber="1"
-                    questionText="Como você avalia o atendimento da recepção?"
+                    questionText="Como você avalia o atendimento da equipe de recepção?"
                     name="quest01"
                     value={form.quest01}
                     onChange={handleChange}
@@ -90,7 +120,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="2"
-                    questionText="Como você avalia o tempo de espera para ser atendido?"
+                    questionText="Como você avalia o tempo de espera para ser atendido (educação, cordialidade)?"
                     name="quest02"
                     value={form.quest02}
                     onChange={handleChange}
@@ -98,7 +128,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="3"
-                    questionText="Como você avalia a cordialidade da equipe médica?"
+                    questionText="Como você avalia o ambiente da recepção (limpeza, conforto, organização)?"
                     name="quest03"
                     value={form.quest03}
                     onChange={handleChange}
@@ -106,7 +136,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="4"
-                    questionText="Como você avalia a atenção da equipe médica ao esclarecer suas dúvidas?"
+                    questionText="Como você avalia o atendimento médico (clareza, atenção, paciência)?"
                     name="quest04"
                     value={form.quest04}
                     onChange={handleChange}
@@ -114,7 +144,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="5"
-                    questionText="Como você avalia a limpeza e higiene da clínica?"
+                    questionText="Como você avalia a explicação sobre seu tratamento ou diagnóstico fornecida pelo médico?"
                     name="quest05"
                     value={form.quest05}
                     onChange={handleChange}
@@ -122,7 +152,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="6"
-                    questionText="Como você avalia o conforto das instalações (cadeiras, salas de espera, equipamentos)?"
+                    questionText="Como você avalia a cordialidade e empatia da equipe médica?"
                     name="quest06"
                     value={form.quest06}
                     onChange={handleChange}
@@ -130,7 +160,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="7"
-                    questionText="Como você avalia o conforto das instalações (cadeiras, salas de espera, equipamentos)?"
+                    questionText="Como você avalia a limpeza e organização das salas de atendimento?"
                     name="quest07"
                     value={form.quest07}
                     onChange={handleChange}
@@ -138,7 +168,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="8"
-                    questionText="Como você avalia o conforto das instalações (cadeiras, salas de espera, equipamentos)?"
+                    questionText="Como você avalia a qualidade do equipamento utilizado durante o seu atendimento?"
                     name="quest08"
                     value={form.quest08}
                     onChange={handleChange}
@@ -146,7 +176,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="9"
-                    questionText="Como você avalia o conforto das instalações (cadeiras, salas de espera, equipamentos)?"
+                    questionText="Como você avalia o conforto das instalações (cadeiras, ambiente geral)?"
                     name="quest09"
                     value={form.quest09}
                     onChange={handleChange}
@@ -154,7 +184,7 @@ function ClinicEvaluationForm() {
 
                 <RatingQuestion
                     questionNumber="10"
-                    questionText="Como você avalia o conforto das instalações (cadeiras, salas de espera, equipamentos)?"
+                    questionText="Como você avalia a sinalização e a facilidade de encontrar os ambientes dentro da clínica?"
                     name="quest10"
                     value={form.quest10}
                     onChange={handleChange}
@@ -172,7 +202,7 @@ function ClinicEvaluationForm() {
 
 const styles = {
     container: {
-        background: '#aaa',
+        background: 'rgba(44, 44, 44, 0.94)',
         padding: '20px',
         borderRadius: '10px',
         boxShadow: '0 0 20px rgb(0, 0, 0)',
@@ -182,7 +212,7 @@ const styles = {
     },
     title: {
         textAlign: 'center',
-        color: '#333',
+        color: 'white',
     },
     form: {
         display: 'flex',
@@ -200,15 +230,17 @@ const styles = {
         color: '#fff',
         border: 'none',
         borderRadius: '5px',
-        fontSize: '16px',
+        fontSize: '25px',
         cursor: 'pointer',
     },
     loadingContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh', 
+        height: '100vh', // Centraliza verticalmente na tela
         textAlign: 'center',
+        width: 'fit-content',
+        margin: 'auto',
     },
 };
 
