@@ -23,6 +23,14 @@ function ClinicEvaluationForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Verifica se todos os campos estão preenchidos
+        const isFormValid = Object.values(form).every((value) => value !== '');
+        if (!isFormValid) {
+            alert('Por favor, preencha todas as opções antes de enviar.');
+            return; // Interrompe o envio se algum campo estiver vazio
+        }
+
         setStatus('loading'); // Mostra a tela de carregamento
 
         try {
@@ -48,6 +56,12 @@ function ClinicEvaluationForm() {
                 quest09: '',
                 quest10: '',
             });
+
+            // Exibe o alerta de sucesso
+            alert('✅ Avaliação enviada com sucesso!');
+
+            // Recarrega a página automaticamente
+            window.location.reload();
         } catch (error) {
             setStatus('error');
             console.error('Erro:', error);
@@ -62,20 +76,6 @@ function ClinicEvaluationForm() {
         );
     }
 
-    if (status === 'success') {
-        return (
-            <div style={styles.successContainer}>
-                <h2>✅ Avaliação enviada com sucesso!</h2>
-                <button
-                    onClick={() => window.location.reload()}
-                    style={styles.button}
-                >
-                    Enviar Nova Avaliação
-                </button>
-            </div>
-        );
-    }
-
     return (
         <div className="container" style={styles.container}>
             <h2 style={styles.title}>Avaliação da Clínica</h2>
@@ -86,7 +86,6 @@ function ClinicEvaluationForm() {
                     name="quest01"
                     value={form.quest01}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -95,7 +94,6 @@ function ClinicEvaluationForm() {
                     name="quest02"
                     value={form.quest02}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -104,7 +102,6 @@ function ClinicEvaluationForm() {
                     name="quest03"
                     value={form.quest03}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -113,7 +110,6 @@ function ClinicEvaluationForm() {
                     name="quest04"
                     value={form.quest04}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -122,7 +118,6 @@ function ClinicEvaluationForm() {
                     name="quest05"
                     value={form.quest05}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -131,7 +126,6 @@ function ClinicEvaluationForm() {
                     name="quest06"
                     value={form.quest06}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -140,7 +134,6 @@ function ClinicEvaluationForm() {
                     name="quest07"
                     value={form.quest07}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -149,7 +142,6 @@ function ClinicEvaluationForm() {
                     name="quest08"
                     value={form.quest08}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -158,7 +150,6 @@ function ClinicEvaluationForm() {
                     name="quest09"
                     value={form.quest09}
                     onChange={handleChange}
-                    required
                 />
 
                 <RatingQuestion
@@ -167,7 +158,6 @@ function ClinicEvaluationForm() {
                     name="quest10"
                     value={form.quest10}
                     onChange={handleChange}
-                    required
                 />
 
                 <div style={styles.buttonContainer}>
@@ -201,7 +191,7 @@ const styles = {
     },
     buttonContainer: {
         display: 'flex',
-        justifyContent: 'center', 
+        justifyContent: 'center',
     },
     button: {
         width: 'fit-content',
@@ -213,13 +203,12 @@ const styles = {
         fontSize: '16px',
         cursor: 'pointer',
     },
-    successContainer: {
-        textAlign: 'center',
-        padding: '20px',
-    },
     loadingContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', 
         textAlign: 'center',
-        padding: '20px',
     },
 };
 
